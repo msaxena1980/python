@@ -1,13 +1,13 @@
 # AI Demo
 
-A full-stack demo app with a FastAPI backend and Vue 3 frontend, connected to MySQL and PostgreSQL.
+A full-stack demo app with a FastAPI backend and Vue 3 frontend, connected to MySQL, PostgreSQL, and Redis.
 
 ## Project Structure
 
 ```
 ai-demo/
 ├── main.py           # FastAPI app and routes
-├── db.py             # MySQL & Postgres connection pools
+├── db.py             # MySQL, Postgres & Redis connection pools
 ├── requirements.txt  # Python dependencies
 ├── .env              # Environment variables (DB credentials)
 ├── .gitignore
@@ -27,6 +27,7 @@ ai-demo/
 - Node.js 18+
 - MySQL running on port 3306
 - PostgreSQL running on port 5433
+- Redis running on port 6379
 
 ## Backend Setup
 
@@ -62,7 +63,73 @@ PG_PORT=5433
 PG_USER=postgres
 PG_PASSWORD=your-password
 PG_DB=your-postgres-db
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PASSWORD=
 ```
+
+## Redis Setup
+
+Redis is used for caching and fast key-value storage.
+
+### macOS (Homebrew)
+
+Install Redis:
+```bash
+brew install redis
+```
+
+Start Redis as a background service (auto-starts on reboot):
+```bash
+brew services start redis
+```
+
+Other useful service commands:
+```bash
+brew services stop redis      # stop the service
+brew services restart redis   # restart the service
+brew services list            # check running services
+```
+
+Or run Redis manually (foreground, no auto-start):
+```bash
+redis-server
+```
+
+Verify Redis is running:
+```bash
+redis-cli ping
+# expected output: PONG
+```
+
+### Linux
+
+```bash
+sudo apt install redis-server
+sudo systemctl enable redis-server  # auto-start on reboot
+sudo systemctl start redis-server
+```
+
+### Windows
+
+Use [WSL](https://learn.microsoft.com/en-us/windows/wsl/) and follow the Linux instructions, or use the [Memurai](https://www.memurai.com/) Redis-compatible server for Windows.
+
+## RedisInsight (GUI)
+
+RedisInsight is the official Redis GUI for browsing keys, running commands, and monitoring your Redis instance. Download and install it from [redis.io/redisinsight](https://redis.io/redisinsight), then open it from your Applications folder to inspect your local Redis data.
+
+### Connecting to local Redis
+
+When RedisInsight opens, add a new connection with these settings:
+
+| Field    | Value       |
+|----------|-------------|
+| Host     | `localhost` |
+| Port     | `6379`      |
+| Password | *(leave blank if none set)* |
 
 ## Frontend Setup
 
@@ -99,11 +166,12 @@ npm run build
 
 ## API Endpoints
 
-| Method | Endpoint            | Description              |
-|--------|---------------------|--------------------------|
-| GET    | `/api/hello`        | Health check             |
-| GET    | `/api/mysql/test`   | Test MySQL connection    |
-| GET    | `/api/postgres/test`| Test Postgres connection |
+| Method | Endpoint             | Description              |
+|--------|----------------------|--------------------------|
+| GET    | `/api/hello`         | Health check             |
+| GET    | `/api/mysql/test`    | Test MySQL connection    |
+| GET    | `/api/postgres/test` | Test Postgres connection |
+| GET    | `/api/redis/test`    | Test Redis connection    |
 
 Interactive API docs available at `http://localhost:8000/docs` when the backend is running.
 

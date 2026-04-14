@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db import get_mysql_connection, get_postgres_connection, release_postgres_connection
+from db import get_mysql_connection, get_postgres_connection, release_postgres_connection, get_redis
 
 app = FastAPI()
 
@@ -45,3 +45,15 @@ def postgres_test():
         return {"status": "error", "message": str(e)}
     finally:
         release_postgres_connection(conn)  # returns connection back to the pool
+
+
+@app.get("/api/redis/test")
+def redis_test():
+    r = get_redis()
+    try:
+        r.ping()
+        r.set("test_key1", "Hello from Redis! Manish", ex=60)
+        value = r.get("test_key1")
+        return {"status": "connected", "test_value": value}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}

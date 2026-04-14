@@ -10,10 +10,16 @@
     <div class="section">
       <button @click="testDB('mysql')">Test MySQL</button>
       <button @click="testDB('postgres')">Test PostgreSQL</button>
+      <button @click="testRedis">Test Redis</button>
       <p v-if="dbResult" :class="dbResult.status === 'connected' ? 'success' : 'error'">
         {{ dbResult.status === 'connected'
           ? `Connected to: ${dbResult.database}`
           : `Error: ${dbResult.message}` }}
+      </p>
+      <p v-if="redisResult" :class="redisResult.status === 'connected' ? 'success' : 'error'">
+        {{ redisResult.status === 'connected'
+          ? `Redis connected — test value: ${redisResult.test_value}`
+          : `Redis error: ${redisResult.message}` }}
       </p>
     </div>
 
@@ -29,6 +35,7 @@ const BASE_URL = 'http://localhost:8000'
 const message = ref('')
 const error = ref('')
 const dbResult = ref(null)
+const redisResult = ref(null)
 
 async function fetchMessage() {
   try {
@@ -44,12 +51,25 @@ async function fetchMessage() {
 
 async function testDB(type) {
   dbResult.value = null
+  redisResult.value = null
   error.value = ''
   try {
     const res = await fetch(`${BASE_URL}/api/${type}/test`)
     dbResult.value = await res.json()
   } catch (e) {
     error.value = `Failed to reach ${type} endpoint.`
+  }
+}
+
+async function testRedis() {
+  redisResult.value = null
+  dbResult.value = null
+  error.value = ''
+  try {
+    const res = await fetch(`${BASE_URL}/api/redis/test`)
+    redisResult.value = await res.json()
+  } catch (e) {
+    error.value = 'Failed to reach Redis endpoint.'
   }
 }
 </script>

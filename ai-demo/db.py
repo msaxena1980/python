@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from mysql.connector.pooling import MySQLConnectionPool
 from psycopg2 import pool
+import redis
 
 load_dotenv()
 
@@ -27,6 +28,16 @@ postgres_pool = pool.ThreadedConnectionPool(
     dbname=os.getenv("PG_DB"),
 )
 
+# Redis client (connection pool built-in)
+redis_password = os.getenv("REDIS_PASSWORD") or None
+redis_client = redis.Redis(
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=int(os.getenv("REDIS_PORT", 6379)),
+    db=int(os.getenv("REDIS_DB", 0)),
+    password=redis_password,
+    decode_responses=True,
+)
+
 
 def get_mysql_connection():
     return mysql_pool.get_connection()
@@ -38,3 +49,7 @@ def get_postgres_connection():
 
 def release_postgres_connection(conn):
     postgres_pool.putconn(conn)
+
+
+def get_redis():
+    return redis_client

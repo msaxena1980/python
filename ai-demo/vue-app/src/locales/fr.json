@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "collapse": "Réduire",
+    "expand": "Développer"
+  },
+  "nav": {
+    "home": "Accueil",
+    "test": "Test",
+    "about": "À propos",
+    "profile": "Profil",
+    "settings": "Paramètres"
+  },
+  "common": {
+    "welcome": "Bienvenue dans Vue App",
+    "language": "Langue",
+    "theme": "Thème",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair"
+  }
+}

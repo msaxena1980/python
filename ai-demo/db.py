@@ -126,21 +126,79 @@ def create_consumer_group(stream_name: str, group_name: str, start_id: str = "$"
         raise
 
 
-def read_stream_group(stream_name: str, group_name: str, consumer_name: str, count: int = 1):
+def read_stream_group(stream_name: str, group_name: str, consumer_name: str, count: int = 1, block: int = 5000):
     """
-    Read messages as part of a consumer group
-    Each message is tracked and must be acknowledged
+    Read messages as part of a consumer group.
+    Each message is tracked and must be acknowledged.
+
+    Uses blocking read by default (block=5000ms) — the call parks at Redis
+    and returns the instant a new message arrives, giving sub-millisecond
+    delivery latency with zero CPU spin while idle.
 
     Args:
-        stream_name: Stream name
-        group_name: Consumer group name
+        stream_name:   Stream name
+        group_name:    Consumer group name
         consumer_name: Individual consumer identifier
-        count: Number of messages to read
+        count:         Max number of messages to read per call
+        block:         Milliseconds to wait for new messages (default 5000).
+                       0 = block forever. None = return immediately (pure pull).
 
     Returns:
-        List of (stream_name, [(message_id, data_dict), ...]) tuples
+        List of (stream_name, [(message_id, data_dict), ...]) tuples,
+        or empty list if the block timeout elapsed with no messages.
     """
-    return redis_client.xreadgroup(group_name, consumer_name, {stream_name: ">"}, count=count)
+    return redis_client.xreadgroup(
+        group_name, consumer_name,
+        {stream_name: ">"},
+        count=count,
+        block=block
+    )
+
+
+def run_consumer_worker(stream_name: str, group_name: str, consumer_name: str,
+                        handler, count: int = 10, block: int = 5000):
+    """
+    Recommended pattern: blocking consumer worker loop.
+
+    Sits idle at Redis (zero CPU) and wakes up within milliseconds of a new
+    message being published. Processes messages in batches, acknowledges each
+    one after successful handling, and loops back to wait for the next batch.
+
+    Args:
+        stream_name:   Stream name (e.g. "stream:orders")
+        group_name:    Consumer group name (e.g. "workers")
+        consumer_name: Unique worker ID (e.g. "worker-1")
+        handler:       Callable(msg_id: str, msg_data: dict) — your processing logic
+        count:         Max messages per batch (default 10)
+        block:         Block timeout in ms (default 5000). 0 = wait forever.
+
+    Example:
+        def process_order(msg_id, data):
+            print(f"Processing order {data['order_id']}")
+            # ... do work ...
+
+        run_consumer_worker("stream:orders", "workers", "worker-1", process_order)
+    """
+    import time
+    print(f"[{consumer_name}] Starting — listening on {stream_name} (group: {group_name})")
+    while True:
+        try:
+            messages = read_stream_group(stream_name, group_name, consumer_name,
+                                         count=count, block=block)
+            if not messages:
+                # block timeout elapsed, no messages — loop and wait again
+                continue
+            for stream_key, msg_list in messages:
+                for msg_id, msg_data in msg_list:
+                    try:
+                        handler(msg_id, msg_data)
+                        acknowledge_message(stream_name, group_name, msg_id)
+                    except Exception as e:
+                        # Leave in PEL — will be reclaimed on next XAUTOCLAIM / restart
+                        print(f"[{consumer_name}] Error processing {msg_id}: {e}")
+        except Exception as e:
+            print(f"[{consumer_name}] Connection error: {e} — retrying in 2s")
+            time.sleep(2)
 
 
 def acknowledge_message(stream_name: str, group_name: str, message_id: str) -> int:

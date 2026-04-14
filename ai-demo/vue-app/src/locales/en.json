@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  "nav": {
+    "home": "Home",
+    "test": "Test",
+    "about": "About Us",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "common": {
+    "welcome": "Welcome to Vue App",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "collapse": "संकुचित करें",
+    "expand": "विस्तारित करें"
+  },
+  "nav": {
+    "home": "होम",
+    "test": "टेस्ट",
+    "about": "हमारे बारे में",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स"
+  },
+  "common": {
+    "welcome": "Vue ऐप में आपका स्वागत है",
+    "language": "भाषा",
+    "theme": "थीम",
+    "darkMode": "डार्क मोड",
+    "lightMode": "लाइट मोड"
+  }
+}

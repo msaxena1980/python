@@ -334,6 +334,62 @@ Disk (persistence)
 | Acknowledgment | ❌ | ✅ at-least-once delivery |
 | Use case | Real-time fire-and-forget | Job queues, logs, pipelines |
 
+### Message Delivery — Pull vs Blocking Pull vs Push
+
+Redis Streams supports two read modes. The consumer always initiates the call (there is no server-side push to a passive listener), but blocking mode makes it behave like push in practice.
+
+**Pull (current default before this change)**
+`XREADGROUP` returns immediately with whatever is available. If nothing is there it returns empty. The consumer must loop and sleep manually.
+
+```python
+# Returns immediately — empty if no new messages
+messages = read_stream_group("stream:orders", "workers", "worker-1", count=5, block=None)
+```
+
+Latency = however long your `sleep()` is between polls.
+
+**Blocking pull (recommended)**
+Pass a `block` timeout in milliseconds. The call parks the connection at Redis and returns the instant a new message arrives — or after the timeout, whichever comes first. Zero CPU while waiting.
+
+```python
+# Parks at Redis for up to 5s, wakes up immediately when a message arrives
+messages = read_stream_group("stream:orders", "workers", "worker-1", count=5, block=5000)
+```
+
+Latency = **sub-millisecond** from publish to delivery.
+
+**Comparison**
+
+| Mode | Latency | CPU while idle | Crash recovery | Replay history |
+|------|---------|---------------|----------------|----------------|
+| Pull (polling) | = sleep interval | Low but wasteful | ✅ via PEL | ✅ |
+| **Blocking pull** `block=5000` | **Sub-millisecond** | **~zero** | ✅ via PEL | ✅ |
+| Pub/Sub | Sub-millisecond | ~zero | ❌ lost on crash | ❌ |
+
+**Blocking pull is the best choice for almost everything.** You get Pub/Sub-level latency with full durability and replay. The timeout (`5000ms`) is a safety net — if Redis hiccups or the connection drops, the loop restarts cleanly rather than hanging forever.
+
+**One thing to know:** each blocking worker holds one open Redis connection while waiting. With `pool_size=10` in this project, you can run up to 10 concurrent blocking workers comfortably.
+
+**Recommended worker loop** — use `run_consumer_worker()` from `db.py`:
+
+```python
+from db import run_consumer_worker, create_consumer_group
+
+# One-time setup
+create_consumer_group("stream:orders", "workers", start_id="0")
+
+# Define your handler
+def process_order(msg_id: str, data: dict):
+    print(f"Order {data['order_id']} from {data['user']} — ${data['total']}")
+    # ... do real work ...
+    # ACK is called automatically by run_consumer_worker after this returns
+
+# Start the worker (blocks forever, handles reconnects automatically)
+run_consumer_worker("stream:orders", "workers", "worker-1", process_order)
+```
+
+This worker sits idle at Redis, consuming zero CPU, and processes each message within milliseconds of it being published.
+
 ### Three Usage Patterns
 
 **Pattern 1 — Append-only log** (audit trails, analytics):
@@ -585,6 +641,113 @@ add_to_stream("stream:data", data, max_len=1000)
 - [ ] `max_len` set on all streams
 - [ ] Pending message monitoring in place
 - [ ] Cache endpoints still working (backward compatible ✅)
+
+---
+
+## Test Page UI (`/test`)
+
+The `/test` page at `http://localhost:5173/test` lets you exercise every API endpoint from the browser without needing curl or Postman.
+
+### DB & Redis connection tests
+
+Click **Test MySQL**, **Test PostgreSQL**, or **Test Redis** — each calls the corresponding `/api/{db}/test` endpoint and shows the connected database name or an error message inline.
+
+### Redis Streams — correct order of operations
+
+The stream inputs default to `stream=orders`, `group=workers`, `consumer=worker-1` and the payload textarea is pre-filled with a sample order JSON. The buttons must be used in the right sequence:
+
+**Step 1 — Add Message**
+Click **➕ Add Message**. This creates the `stream:orders` stream in Redis (if it doesn't exist) and appends the message. The returned message ID is automatically copied into the "Message ID to acknowledge" field.
+
+**Step 2 — Create Consumer Group**
+Click **👥 Create Consumer Group**. Make sure the **"From beginning"** checkbox is **checked** — this creates the group with `start_id=0` so it can see messages that already exist in the stream. If you leave it unchecked (`$`), the group only sees messages added *after* it was created, and Step 3 will return an empty list.
+
+**Step 3 — Read as Consumer**
+Click **📥 Read as Consumer**. The message from Step 1 is now delivered to `worker-1` and moved into its Pending Entry List (PEL). It will not be delivered to any other consumer until it is acknowledged or times out.
+
+**Step 4 — Acknowledge**
+Click **✅ Acknowledge**. The message ID field was auto-filled in Step 1. This removes the message from the consumer's Pending Entry List (PEL), marking it as fully processed.
+
+> **Important:** ACK does NOT delete the message from the stream. The raw log is immutable — the message stays there until it is naturally trimmed by `maxlen`. What ACK removes is only the "delivered but unconfirmed" tracking entry for that consumer.
+
+To verify the PEL is cleared, click **📊 Group Info** after acknowledging — you should see `"pending": 0`.
+
+### What "removed" means in each context
+
+| Action | What it removes |
+|--------|----------------|
+| ✅ ACK | Message from the consumer's PEL only — stream untouched |
+| 📖 Read Messages | Nothing — `XRANGE` is a read-only scan of the raw log |
+| 📥 Read as Consumer (after ACK) | Returns empty — group has no new undelivered messages |
+| `maxlen` trim (automatic) | Oldest messages from the raw stream when it exceeds the limit |
+| `XDEL` (Redis CLI only) | Physically deletes a specific message from the stream |
+
+So after acknowledging:
+- **📖 Read Messages** still shows the message — it's in the raw log
+- **📥 Read as Consumer** returns nothing — the group already processed it
+- **📊 Group Info** shows `pending: 0` — PEL is clear
+- **ℹ️ Stream Info** still shows `total_messages: 1` — count is of the raw log
+
+### Does Redis delete messages once all consumers ACK?
+
+No. Even when every consumer in every group has acknowledged a message, it stays in the stream. Redis never auto-deletes messages based on ACK status.
+
+The stream is an immutable log, not a queue. Think of it like Kafka — messages accumulate and are only removed by:
+
+1. **`maxlen` trim (automatic)** — when a new message is added and the stream exceeds the limit, the oldest messages are dropped. This is the normal cleanup mechanism.
+2. **`XDEL` (manual)** — explicit delete of a specific message ID via Redis CLI.
+3. **`DEL stream:orders` (manual)** — deletes the entire stream.
+
+```
+stream:orders (raw log) — never touched by ACK
+├── 1713091200000-0  {...}  ← still here after all groups ACK it
+└── 1713091200001-0  {...}
+
+Consumer Group "workers"   PEL: {}  ← empty after ACK
+Consumer Group "auditors"  PEL: {}  ← empty after ACK
+
+Message stays in the stream. Both groups are done with it.
+Redis does nothing automatically.
+```
+
+This is actually useful — you can add a new consumer group later and replay the full history from `start_id=0`, as long as `maxlen` hasn't trimmed those messages yet.
+
+### `maxlen` in this project
+
+This project sets `maxlen=1000` with `approximate=True` in `add_to_stream()`:
+
+```python
+def add_to_stream(stream_name: str, data: dict, max_len: int = 1000) -> str:
+    return redis_client.xadd(stream_name, data, maxlen=max_len, approximate=True)
+```
+
+- Each stream keeps roughly the **last 1000 messages**
+- When the 1001st message is added, Redis starts trimming the oldest ones
+- `approximate=True` lets Redis trim at a natural internal boundary rather than exactly at 1000 — this is significantly faster and the small overshoot doesn't matter in practice
+- You can override per call: `add_to_stream("stream:orders", data, max_len=5000)`
+
+### Why "Read as Consumer" returns empty even though Stream Info shows messages
+
+This is the most common point of confusion:
+
+- **Stream Info** counts all messages in the raw stream log — it has no concept of consumer groups.
+- **Read as Consumer** uses `XREADGROUP` which only delivers messages the group hasn't seen yet.
+- If the group was created *after* messages were added and with "From beginning" **unchecked** (the `$` mode), those earlier messages are invisible to the group.
+
+**Fix:** Delete the group in Redis CLI and recreate it with "From beginning" checked:
+
+```bash
+redis-cli XGROUP DESTROY stream:orders workers
+# Then click "Create Consumer Group" in the UI with "From beginning" ✅ checked
+```
+
+### Why `NOGROUP` error appears on "Read as Consumer"
+
+```
+NOGROUP No such key 'stream:orders' or consumer group 'workers' in XREADGROUP
+```
+
+This means either the stream doesn't exist yet or the consumer group hasn't been created. Always do Step 1 (Add Message) and Step 2 (Create Consumer Group) before attempting Step 3.
 
 ---
 

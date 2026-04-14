@@ -1,0 +1,6 @@
+flask
+flask-cors
+gunicorn
+python-dotenv
+mysql-connector-python
+psycopg2-binary

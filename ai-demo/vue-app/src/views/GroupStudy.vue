@@ -1,32 +1,28 @@
 <template>
   <div class="page">
-    <div class="profile-card">
-      <h1>{{ t('nav.profile') }}</h1>
-      <p>User profile information goes here.</p>
+    <div class="group-study-card">
+      <h1>Group Study</h1>
+      <p>Collaborate with fellow students in real-time study sessions.</p>
     </div>
   </div>
 </template>
 
-<script setup>
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-</script>
-
 <style scoped>
-.profile-card {
+.group-study-card {
   background: var(--bg-primary);
   padding: 40px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
+  text-align: center;
 }
 
-.profile-card h1 {
+.group-study-card h1 {
   color: var(--text-primary);
   margin-bottom: 20px;
   font-size: 2rem;
 }
 
-.profile-card p {
+.group-study-card p {
   color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.6;

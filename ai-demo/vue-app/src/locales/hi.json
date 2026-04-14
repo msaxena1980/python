@@ -8,13 +8,176 @@
     "test": "टेस्ट",
     "about": "हमारे बारे में",
     "profile": "प्रोफ़ाइल",
-    "settings": "सेटिंग्स"
+    "settings": "सेटिंग्स",
+    "upgrade": "अपग्रेड",
+    "feedback": "प्रतिक्रिया",
+    "upload": "दस्तावेज़ अपलोड करें",
+    "instaStudy": "इंस्टा स्टडी",
+    "groupStudy": "ग्रुप स्टडी",
+    "studyCenter": "स्टडी सेंटर",
+    "logout": "लॉग आउट"
   },
   "common": {
-    "welcome": "Vue ऐप में आपका स्वागत है",
+    "welcome": "AI Tutor में आपका स्वागत है",
     "language": "भाषा",
     "theme": "थीम",
     "darkMode": "डार्क मोड",
-    "lightMode": "लाइट मोड"
+    "lightMode": "लाइट मोड",
+    "active": "सक्रिय",
+    "creditsRemaining": "क्रेडिट शेष",
+    "readMore": "और पढ़ें",
+    "cancel": "रद्द करें"
+  },
+  "subscription": {
+    "title": "अपनी योजना चुनें",
+    "subtitle": "उन्नत AI सुविधाओं और सभी अध्ययन उपकरों तक असीमित पहुंच के लिए अपग्रेड करें।",
+    "currentPlan": "वर्तमान योजना",
+    "freePlan": "मुफ्त योजना",
+    "monthly": "मासिक",
+    "yearly": "वार्षिक",
+    "billingCycle": "बिलिंग चक्र",
+    "applyDiscount": "छूट लागू करें",
+    "discountSubtitle": "एक छूट विकल्प चुनें (आप एक समय में केवल एक का उपयोग कर सकते हैं)",
+    "coupon": "कूपन",
+    "referral": "रेफरल",
+    "cashpoints": "कैशपॉइंट्स",
+    "instaPass": "इंस्टा पास",
+    "mostPopular": "सबसे लोकप्रिय",
+    "save": "बचाएं",
+    "off": "छूट",
+    "perMonth": "/महीना",
+    "perYear": "/वर्ष",
+    "perDays": "/2 दिन",
+    "startPlan": "{plan} योजना शुरू करें",
+    "getPlan": "{plan} प्राप्त करें",
+    "creditsNote": "क्रेडिट AI इंटरैक्शन के आधार पर गणना किए जाते हैं।",
+    "plans": {
+      "free": {
+        "name": "मुफ्त",
+        "description": "AI Tutor आज़माने के लिए बिल्कुल सही",
+        "features": {
+          "uploads": "प्रति माह 5 दस्तावेज़ अपलोड",
+          "basicAI": "बुनियादी AI स्पष्टीकरण",
+          "limitedChat": "सीमित चैट सत्र",
+          "library": "दस्तावेज़ लाइब्रेरी तक पहुंच",
+          "mobile": "मोबाइल ऐप एक्सेस"
+        }
+      },
+      "monthly": {
+        "name": "मासिक",
+        "description": "गंभीर शिक्षार्थियों और छात्रों के लिए",
+        "features": {
+          "unlimitedUploads": "असीमित दस्तावेज़ अपलोड",
+          "advancedAI": "उन्नत AI स्पष्टीकरण",
+          "unlimitedChat": "असीमित चैट सत्र",
+          "groupStudy": "ग्रुप स्टडी सुविधाएं",
+          "hindiMode": "हिंदी अध्ययन मोड",
+          "instaCamera": "इंस्टा स्टडी कैमरा",
+          "prioritySupport": "प्राथमिकता समर्थन"
+        }
+      },
+      "yearly": {
+        "name": "वार्षिक",
+        "description": "समर्पित छात्रों के लिए सबसे अच्छा मूल्य",
+        "features": {
+          "everything": "मासिक में सब कुछ",
+          "priorityAI": "प्राथमिकता AI प्रोसेसिंग",
+          "analytics": "उन्नत एनालिटिक्स",
+          "customPlans": "कस्टम अध्ययन योजनाएं",
+          "earlyAccess": "नई सुविधाओं तक प्रारंभिक पहुंच",
+          "dedicatedSupport": "समर्पित समर्थन चैनल"
+        }
+      },
+      "instaPass": {
+        "name": "इंस्टा पास",
+        "description": "जब आपको सबसे ज्यादा जरूरत हो तो त्वरित पहुंच",
+        "features": {
+          "unlimited": "2 दिन की असीमित पहुंच",
+          "allFeatures": "सभी प्रीमियम सुविधाएं",
+          "camera": "इंस्टा स्टडी कैमरा",
+          "exams": "परीक्षाओं के लिए बिल्कुल सही",
+          "noCommitment": "कोई प्रतिबद्धता नहीं"
+        }
+      }
+    }
+  },
+  "user": {
+    "points": "अंक",
+    "streak": "स्ट्रीक",
+    "credits": "क्रेडिट",
+    "rank": "रैंक"
+  },
+  "home": {
+    "hero": {
+      "title": "AI Tutor में आपका स्वागत है!",
+      "subtitle": "आपका व्यक्तिगत AI-संचालित अध्ययन सहायक बुद्धिमान और तेज अध्ययन के लिए",
+      "cta": "शुरू करें"
+    },
+    "features": {
+      "title": "आप क्या कर सकते हैं",
+      "upload": {
+        "title": "दस्तावेज़ अपलोड करें",
+        "description": "अपनी अध्ययन सामग्री अपलोड करें और AI को बेहतर सीखने में मदद करने दें"
+      },
+      "instaStudy": {
+        "title": "इंस्टा स्टडी",
+        "description": "तुरंत सीखने के लिए AI-संचालित त्वरित अध्ययन सहायता"
+      },
+      "groupStudy": {
+        "title": "ग्रुप स्टडी",
+        "description": "रीयल-टाइम स्टडी सत्रों में साथी छात्रों के साथ सहयोग करें"
+      },
+      "studyCenter": {
+        "title": "स्टडी सेंटर",
+        "description": "सभी अध्ययन सामग्री और संसाधनों के लिए आपका केंद्रीकृत हब"
+      },
+      "aiExplanations": {
+        "title": "AI स्पष्टीकरण",
+        "description": "हमारे उन्नत AI ट्यूटर से विस्तृत स्पष्टीकरण प्राप्त करें"
+      },
+      "trackProgress": {
+        "title": "प्रगति ट्रैक करें",
+        "description": "अपनी सीखने की यात्रा और उपलब्धियों की निगरानी करें"
+      }
+    },
+    "stats": {
+      "students": "सक्रिय छात्र",
+      "documents": "प्रोसेस किए गए दस्तावेज़",
+      "satisfaction": "संतुष्टि दर",
+      "support": "AI सहायता"
+    }
+  },
+  "header": {
+    "greeting": "नमस्ते, {name}",
+    "notifications": "सूचनाएं",
+    "upgrade": "अपग्रेड"
+  },
+  "settings": {
+    "empty": "अभी तक कोई सेटिंग उपलब्ध नहीं है"
+  },
+  "profile": {
+    "title": "प्रोफ़ाइल"
+  },
+  "feedback": {
+    "title": "प्रतिक्रिया",
+    "newRequest": "नया अनुरोध",
+    "nature": "प्रतिक्रिया की प्रकृति",
+    "selectType": "प्रतिक्रिया प्रकार चुनें...",
+    "details": "विवरण",
+    "detailsPlaceholder": "कृपया अपनी प्रतिक्रिया का विस्तार से वर्णन करें...",
+    "attachImage": "छवि संलग्न करें (वैकल्पिक)",
+    "imageHint": "छवि संलग्न करने के लिए क्लिक करें (PNG, JPG 5MB तक)",
+    "submitRequest": "अनुरोध जमा करें",
+    "placeholder": "अपनी प्रतिक्रिया यहां लिखें...",
+    "submit": "प्रतिक्रिया जमा करें"
+  },
+  "sidebar": {
+    "documentLibrary": "दस्तावेज़ लाइब्रेरी",
+    "topics": "विषय",
+    "upgrade": "अपग्रेड",
+    "noDocuments": "कोई दस्तावेज़ उपलब्ध नहीं"
+  },
+  "user": {
+    "freePlan": "मुफ्त योजना"
   }
 }

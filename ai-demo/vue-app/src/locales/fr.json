@@ -8,13 +8,176 @@
     "test": "Test",
     "about": "À propos",
     "profile": "Profil",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "upgrade": "Améliorer",
+    "feedback": "Commentaires",
+    "upload": "Télécharger un document",
+    "instaStudy": "Étude instantanée",
+    "groupStudy": "Étude de groupe",
+    "studyCenter": "Centre d'études",
+    "logout": "Se déconnecter"
   },
   "common": {
-    "welcome": "Bienvenue dans Vue App",
+    "welcome": "Bienvenue sur AI Tutor",
     "language": "Langue",
     "theme": "Thème",
     "darkMode": "Mode sombre",
-    "lightMode": "Mode clair"
+    "lightMode": "Mode clair",
+    "active": "Actif",
+    "creditsRemaining": "crédits restants",
+    "readMore": "En savoir plus",
+    "cancel": "Annuler"
+  },
+  "subscription": {
+    "title": "Choisissez votre forfait",
+    "subtitle": "Passez à la version supérieure pour débloquer des fonctionnalités d'IA avancées et un accès illimité à tous les outils d'étude.",
+    "currentPlan": "Forfait actuel",
+    "freePlan": "Forfait gratuit",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "billingCycle": "Cycle de facturation",
+    "applyDiscount": "Appliquer une réduction",
+    "discountSubtitle": "Choisissez une option de réduction (vous ne pouvez en utiliser qu'une seule à la fois)",
+    "coupon": "Coupon",
+    "referral": "Parrainage",
+    "cashpoints": "Points cash",
+    "instaPass": "Pass instantané",
+    "mostPopular": "Le plus populaire",
+    "save": "Économisez",
+    "off": "de réduction",
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "perDays": "/2 jours",
+    "startPlan": "Commencer le forfait {plan}",
+    "getPlan": "Obtenir {plan}",
+    "creditsNote": "Les crédits sont calculés en fonction des interactions IA.",
+    "plans": {
+      "free": {
+        "name": "Gratuit",
+        "description": "Parfait pour essayer AI Tutor",
+        "features": {
+          "uploads": "5 téléchargements de documents par mois",
+          "basicAI": "Explications IA de base",
+          "limitedChat": "Sessions de chat limitées",
+          "library": "Accès à la bibliothèque de documents",
+          "mobile": "Accès à l'application mobile"
+        }
+      },
+      "monthly": {
+        "name": "Mensuel",
+        "description": "Pour les apprenants sérieux et les étudiants",
+        "features": {
+          "unlimitedUploads": "Téléchargements de documents illimités",
+          "advancedAI": "Explications IA avancées",
+          "unlimitedChat": "Sessions de chat illimitées",
+          "groupStudy": "Fonctionnalités d'étude de groupe",
+          "hindiMode": "Mode d'étude en hindi",
+          "instaCamera": "Caméra d'étude instantanée",
+          "prioritySupport": "Support prioritaire"
+        }
+      },
+      "yearly": {
+        "name": "Annuel",
+        "description": "Meilleur rapport qualité-prix pour les étudiants dévoués",
+        "features": {
+          "everything": "Tout ce qui est mensuel",
+          "priorityAI": "Traitement IA prioritaire",
+          "analytics": "Analyses avancées",
+          "customPlans": "Plans d'études personnalisés",
+          "earlyAccess": "Accès anticipé aux nouvelles fonctionnalités",
+          "dedicatedSupport": "Canal d'assistance dédié"
+        }
+      },
+      "instaPass": {
+        "name": "Pass instantané",
+        "description": "Accès rapide quand vous en avez le plus besoin",
+        "features": {
+          "unlimited": "Accès illimité de 2 jours",
+          "allFeatures": "Toutes les fonctionnalités premium",
+          "camera": "Caméra d'étude instantanée",
+          "exams": "Parfait pour les examens",
+          "noCommitment": "Aucun engagement"
+        }
+      }
+    }
+  },
+  "user": {
+    "points": "Points",
+    "streak": "Série",
+    "credits": "Crédits",
+    "rank": "Rang"
+  },
+  "home": {
+    "hero": {
+      "title": "Bienvenue sur AI Tutor !",
+      "subtitle": "Votre assistant d'apprentissage personnel alimenté par l'IA pour étudier plus intelligemment et plus rapidement",
+      "cta": "Commencer"
+    },
+    "features": {
+      "title": "Ce que vous pouvez faire",
+      "upload": {
+        "title": "Télécharger des documents",
+        "description": "Téléchargez vos supports d'étude et laissez l'IA vous aider à mieux apprendre"
+      },
+      "instaStudy": {
+        "title": "Étude instantanée",
+        "description": "Assistance d'étude rapide alimentée par l'IA pour un apprentissage instantané"
+      },
+      "groupStudy": {
+        "title": "Étude de groupe",
+        "description": "Collaborez avec d'autres étudiants lors de sessions d'étude en temps réel"
+      },
+      "studyCenter": {
+        "title": "Centre d'études",
+        "description": "Votre hub centralisé pour tous les supports et ressources d'étude"
+      },
+      "aiExplanations": {
+        "title": "Explications IA",
+        "description": "Obtenez des explications détaillées de notre tuteur IA avancé"
+      },
+      "trackProgress": {
+        "title": "Suivre les progrès",
+        "description": "Surveillez votre parcours d'apprentissage et vos réalisations"
+      }
+    },
+    "stats": {
+      "students": "Étudiants actifs",
+      "documents": "Documents traités",
+      "satisfaction": "Taux de satisfaction",
+      "support": "Support IA"
+    }
+  },
+  "header": {
+    "greeting": "Bonjour, {name}",
+    "notifications": "Notifications",
+    "upgrade": "Améliorer"
+  },
+  "settings": {
+    "empty": "Aucun paramètre disponible pour le moment"
+  },
+  "profile": {
+    "title": "Profil"
+  },
+  "feedback": {
+    "title": "Commentaires",
+    "newRequest": "Nouvelle demande",
+    "nature": "Nature des commentaires",
+    "selectType": "Sélectionnez le type de commentaires...",
+    "details": "Détails",
+    "detailsPlaceholder": "Veuillez décrire vos commentaires en détail...",
+    "attachImage": "Joindre une image (facultatif)",
+    "imageHint": "Cliquez pour joindre une image (PNG, JPG jusqu'à 5 Mo)",
+    "submitRequest": "Soumettre la demande",
+    "placeholder": "Écrivez vos commentaires ici...",
+    "submit": "Soumettre les commentaires"
+  },
+  "sidebar": {
+    "documentLibrary": "BIBLIOTHÈQUE DE DOCUMENTS",
+    "topics": "SUJETS",
+    "upgrade": "Améliorer",
+    "noDocuments": "Aucun document disponible"
+  },
+  "user": {
+    "freePlan": "Plan gratuit"
   }
 }

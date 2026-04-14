@@ -8,13 +8,178 @@
     "test": "Test",
     "about": "About Us",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "upgrade": "Upgrade",
+    "feedback": "Feedback",
+    "upload": "Upload Document",
+    "instaStudy": "Insta Study",
+    "groupStudy": "Group Study",
+    "studyCenter": "Study Center",
+    "logout": "Logout"
   },
   "common": {
-    "welcome": "Welcome to Vue App",
+    "welcome": "Welcome to AI Tutor",
     "language": "Language",
     "theme": "Theme",
     "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "lightMode": "Light Mode",
+    "active": "Active",
+    "creditsRemaining": "credits remaining",
+    "readMore": "Read more",
+    "cancel": "Cancel"
+  },
+  "subscription": {
+    "title": "Choose Your Plan",
+    "subtitle": "Upgrade to unlock advanced AI features and unlimited access to all study tools.",
+    "currentPlan": "Current Plan",
+    "freePlan": "Free Plan",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "billingCycle": "Billing Cycle",
+    "applyDiscount": "Apply a Discount",
+    "discountSubtitle": "Choose one discount option (you can only use one at a time)",
+    "coupon": "Coupon",
+    "referral": "Referral",
+    "cashpoints": "Cashpoints",
+    "instaPass": "Insta Pass",
+    "mostPopular": "Most Popular",
+    "save": "Save",
+    "off": "off",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "perDays": "/2 days",
+    "startPlan": "Start {plan} Plan",
+    "getPlan": "Get {plan}",
+    "creditsNote": "Credits are calculated based on AI interactions.",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "description": "Perfect for trying out AI Tutor",
+        "features": {
+          "uploads": "5 document uploads per month",
+          "basicAI": "Basic AI explanations",
+          "limitedChat": "Limited chat sessions",
+          "library": "Access to document library",
+          "mobile": "Mobile app access"
+        }
+      },
+      "monthly": {
+        "name": "Monthly",
+        "description": "For serious learners and students",
+        "features": {
+          "unlimitedUploads": "Unlimited document uploads",
+          "advancedAI": "Advanced AI explanations",
+          "unlimitedChat": "Unlimited chat sessions",
+          "groupStudy": "Group study features",
+          "hindiMode": "Hindi study mode",
+          "instaCamera": "Insta Study camera",
+          "prioritySupport": "Priority support"
+        }
+      },
+      "yearly": {
+        "name": "Yearly",
+        "description": "Best value for dedicated students",
+        "features": {
+          "everything": "Everything in Monthly",
+          "priorityAI": "Priority AI processing",
+          "analytics": "Advanced analytics",
+          "customPlans": "Custom study plans",
+          "earlyAccess": "Early access to new features",
+          "dedicatedSupport": "Dedicated support channel"
+        }
+      },
+      "instaPass": {
+        "name": "Insta Pass",
+        "description": "Quick access when you need it most",
+        "features": {
+          "unlimited": "2-day unlimited access",
+          "allFeatures": "All premium features",
+          "camera": "Insta Study camera",
+          "exams": "Perfect for exams",
+          "noCommitment": "No commitment"
+        }
+      }
+    }
+  },
+  "user": {
+    "points": "Points",
+    "streak": "Streak",
+    "credits": "Credits",
+    "rank": "Rank"
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to AI Tutor!",
+      "subtitle": "Your personal AI-powered learning assistant for smarter, faster studying",
+      "cta": "Get Started"
+    },
+    "features": {
+      "title": "What You Can Do",
+      "upload": {
+        "title": "Upload Documents",
+        "description": "Upload your study materials and let AI help you learn better"
+      },
+      "instaStudy": {
+        "title": "Insta Study",
+        "description": "Quick AI-powered study assistance for instant learning"
+      },
+      "groupStudy": {
+        "title": "Group Study",
+        "description": "Collaborate with fellow students in real-time study sessions"
+      },
+      "studyCenter": {
+        "title": "Study Center",
+        "description": "Your centralized hub for all study materials and resources"
+      },
+      "aiExplanations": {
+        "title": "AI Explanations",
+        "description": "Get detailed explanations from our advanced AI tutor"
+      },
+      "trackProgress": {
+        "title": "Track Progress",
+        "description": "Monitor your learning journey and achievements"
+      }
+    },
+    "stats": {
+      "students": "Active Students",
+      "documents": "Documents Processed",
+      "satisfaction": "Satisfaction Rate",
+      "support": "AI Support"
+    }
+  },
+  "header": {
+    "greeting": "Hi, {name}",
+    "notifications": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications yet",
+    "upgrade": "Upgrade"
+  },
+  "settings": {
+    "empty": "No settings available yet"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "newRequest": "New Request",
+    "nature": "Nature of Feedback",
+    "selectType": "Select feedback type...",
+    "details": "Details",
+    "detailsPlaceholder": "Please describe your feedback in detail...",
+    "attachImage": "Attach Image (optional)",
+    "imageHint": "Click to attach an image (PNG, JPG up to 5MB)",
+    "submitRequest": "Submit Request",
+    "placeholder": "Write your feedback here...",
+    "submit": "Submit Feedback"
+  },
+  "sidebar": {
+    "documentLibrary": "DOCUMENT LIBRARY",
+    "topics": "TOPICS",
+    "upgrade": "Upgrade",
+    "noDocuments": "No documents available"
+  },
+  "user": {
+    "freePlan": "Free Plan"
   }
 }

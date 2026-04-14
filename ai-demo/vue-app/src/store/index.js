@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     sidebarCollapsed: false,
-    theme: 'light'
+    theme: 'light',
+    feedbackPanelOpen: false
   },
   mutations: {
     TOGGLE_SIDEBAR(state) {
@@ -19,6 +20,12 @@ export default createStore({
     TOGGLE_THEME(state) {
       state.theme = state.theme === 'light' ? 'dark' : 'light'
       document.documentElement.setAttribute('data-theme', state.theme)
+    },
+    TOGGLE_FEEDBACK_PANEL(state) {
+      state.feedbackPanelOpen = !state.feedbackPanelOpen
+    },
+    SET_FEEDBACK_PANEL(state, open) {
+      state.feedbackPanelOpen = open
     }
   },
   actions: {
@@ -30,10 +37,17 @@ export default createStore({
     },
     toggleTheme({ commit }) {
       commit('TOGGLE_THEME')
+    },
+    toggleFeedbackPanel({ commit }) {
+      commit('TOGGLE_FEEDBACK_PANEL')
+    },
+    setFeedbackPanel({ commit }, open) {
+      commit('SET_FEEDBACK_PANEL', open)
     }
   },
   getters: {
     isSidebarCollapsed: state => state.sidebarCollapsed,
-    currentTheme: state => state.theme
+    currentTheme: state => state.theme,
+    isFeedbackPanelOpen: state => state.feedbackPanelOpen
   }
 })

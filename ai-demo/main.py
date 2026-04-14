@@ -155,7 +155,7 @@ def stream_read_group(stream_name: str, group_name: str, consumer_name: str, cou
       - count: number of messages to read
     """
     try:
-        messages = read_stream_group(f"stream:{stream_name}", group_name, consumer_name, count)
+        messages = read_stream_group(f"stream:{stream_name}", group_name, consumer_name, count, block=None)
 
         if not messages:
             return {
